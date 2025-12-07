@@ -1,5 +1,7 @@
 package com.mortgage.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,7 @@ import jakarta.validation.Valid;
 @Tag(name = "Mortgage Check", description = "API for mortgage feasibility checks")
 public class MortgageCheckController {
     
+    private static final Logger log = LoggerFactory.getLogger(MortgageCheckController.class);
     private final MortgageService mortgageService;
     
     public MortgageCheckController(MortgageService mortgageService) {
@@ -38,7 +41,10 @@ public class MortgageCheckController {
     @Operation(summary = "Check mortgage feasibility", 
                description = "Calculate mortgage feasibility and monthly costs")
     public ResponseEntity<MortgageCheckResponse> checkMortgage(@Valid @RequestBody MortgageCheckRequest request) {
+        log.info("Checking mortgage feasibility - Loan: {}, Income: {}, Period: {}", 
+                request.getLoanValue(), request.getIncome(), request.getMaturityPeriod());
         MortgageCheckResponse response = mortgageService.checkMortgage(request);
+        log.info("Mortgage check result - Feasible: {}, Monthly: {}", response.getFeasible(), response.getMonthlyCosts());
         return ResponseEntity.ok(response);
     }
 }

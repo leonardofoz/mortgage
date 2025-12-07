@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.mortgage.model.InterestRate;
@@ -17,6 +19,7 @@ import com.mortgage.model.InterestRate;
 @Repository
 public class InMemoryInterestRateRepository implements InterestRateRepository {
     
+    private static final Logger log = LoggerFactory.getLogger(InMemoryInterestRateRepository.class);
     private final Map<Integer, InterestRate> interestRates = new HashMap<>();
     
     public InMemoryInterestRateRepository() {
@@ -32,6 +35,7 @@ public class InMemoryInterestRateRepository implements InterestRateRepository {
         interestRates.put(10, new InterestRate(10, new BigDecimal("3.8"), now));
         interestRates.put(15, new InterestRate(15, new BigDecimal("4.2"), now));
         interestRates.put(20, new InterestRate(20, new BigDecimal("4.3"), now));
+        log.info("Initialized {} interest rates", interestRates.size());
     }
     
     @Override

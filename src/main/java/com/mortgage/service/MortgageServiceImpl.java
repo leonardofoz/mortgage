@@ -3,6 +3,8 @@ package com.mortgage.service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.mortgage.dto.MortgageCheckRequest;
@@ -15,6 +17,7 @@ import com.mortgage.model.InterestRate;
 @Service
 public class MortgageServiceImpl implements MortgageService {
 
+    private static final Logger log = LoggerFactory.getLogger(MortgageServiceImpl.class);
     private static final BigDecimal MAX_LOAN_TO_INCOME = new BigDecimal("4.0");
     private static final int MONTHS_PER_YEAR = 12;
 
@@ -30,6 +33,7 @@ public class MortgageServiceImpl implements MortgageService {
                 && request.getLoanValue().compareTo(request.getHomeValue()) <= 0;
 
         BigDecimal monthlyCosts = feasible ? calculateMonthlyPayment(request) : BigDecimal.ZERO;
+        log.debug("Mortgage check - Feasible: {}, Monthly: {}", feasible, monthlyCosts);
         return new MortgageCheckResponse(feasible, monthlyCosts);
     }
 
