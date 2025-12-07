@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.mortgage.model.InterestRate;
-import com.mortgage.service.MortgageService;
+import com.mortgage.service.InterestRateService;
 
 @WebMvcTest(InterestRateController.class)
 class InterestRateControllerTest {
@@ -25,7 +25,7 @@ class InterestRateControllerTest {
     private MockMvc mockMvc;
     
     @MockBean
-    private MortgageService mortgageService;
+    private InterestRateService interestRateService;
     
     @Test
     void getAllInterestRates_ShouldReturnListOfInterestRates() throws Exception {
@@ -35,7 +35,7 @@ class InterestRateControllerTest {
                 new InterestRate(10, new BigDecimal("3.0"), now)
         );
         
-        when(mortgageService.getAllInterestRates()).thenReturn(interestRates);
+        when(interestRateService.getAllInterestRates()).thenReturn(interestRates);
         
         mockMvc.perform(get("/api/interest-rates"))
                 .andExpect(status().isOk())

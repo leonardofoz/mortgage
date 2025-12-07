@@ -1,6 +1,8 @@
 package com.mortgage.service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -8,17 +10,30 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.when;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.mortgage.dto.MortgageCheckRequest;
 import com.mortgage.dto.MortgageCheckResponse;
+import com.mortgage.model.InterestRate;
 
+@ExtendWith(MockitoExtension.class)
 class MortgageServiceTest {
     
-    private MortgageService mortgageService;
+    @Mock
+    private InterestRateService interestRateService;
+    
+    @InjectMocks
+    private MortgageServiceImpl mortgageService;
     
     @BeforeEach
     void setUp() {
-        mortgageService = new MortgageService();
+        InterestRate rate20 = new InterestRate(20, new BigDecimal("4.3"), LocalDateTime.now());
+        when(interestRateService.getByMaturityPeriod(20)).thenReturn(Optional.of(rate20));
+        when(interestRateService.getByMaturityPeriod(99)).thenReturn(Optional.empty());
     }
     
     @Test

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mortgage.model.InterestRate;
-import com.mortgage.service.MortgageService;
+import com.mortgage.service.InterestRateService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,10 +21,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Interest Rates", description = "API for managing interest rates")
 public class InterestRateController {
     
-    private final MortgageService mortgageService;
+    private final InterestRateService interestRateService;
     
-    public InterestRateController(MortgageService mortgageService) {
-        this.mortgageService = mortgageService;
+    public InterestRateController(InterestRateService interestRateService) {
+        this.interestRateService = interestRateService;
     }
     
     /**
@@ -35,7 +35,7 @@ public class InterestRateController {
     @GetMapping
     @Operation(summary = "Get all interest rates", description = "Get a list of all current interest rates")
     public ResponseEntity<List<InterestRate>> getAllInterestRates() {
-        List<InterestRate> interestRates = mortgageService.getAllInterestRates();
+        List<InterestRate> interestRates = interestRateService.getAllInterestRates();
         return ResponseEntity.ok(interestRates);
     }
 }
