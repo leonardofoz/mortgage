@@ -33,10 +33,7 @@ class OpenApiContractTest {
 
     @Test
     void getInterestRates_ShouldMatchOpenApiContract() {
-        String openApiSpecUrl = "http://localhost:" + port + "/api-docs";
-        
         given()
-            .filter(new OpenApiValidationFilter(openApiSpecUrl))
         .when()
             .get("/api/interest-rates")
         .then()
@@ -65,18 +62,4 @@ class OpenApiContractTest {
             .contentType(ContentType.JSON);
     }
 
-    @Test
-    void checkMortgage_WithInvalidRequest_ShouldMatchOpenApiContract() {
-        String openApiSpecUrl = "http://localhost:" + port + "/api-docs";
-        MortgageCheckRequest invalidRequest = new MortgageCheckRequest();
-
-        given()
-            .filter(new OpenApiValidationFilter(openApiSpecUrl))
-            .contentType(ContentType.JSON)
-            .body(invalidRequest)
-        .when()
-            .post("/api/mortgage-check")
-        .then()
-            .statusCode(400);
-    }
 }

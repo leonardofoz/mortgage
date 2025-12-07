@@ -85,7 +85,39 @@ docker-compose up
 - `GET /api/interest-rates` - Get all interest rates
 - `POST /api/mortgage-check` - Check mortgage feasibility
 
+### Request Example
+
+```json
+{
+  "income": 50000,
+  "maturityPeriod": 20,
+  "loanValue": 200000,
+  "homeValue": 300000
+}
+```
+
+### Response Example
+
+```json
+{
+  "feasible": true,
+  "monthlyCosts": 1211.58
+}
+```
+
+## Business Rules
+
+The mortgage check applies the following business rules:
+
+1. **Loan-to-Income Ratio**: The loan value must not exceed 4 times the annual income
+2. **Loan-to-Value Ratio**: The loan value must not exceed the home value
+3. **Monthly Payment Affordability**: The monthly costs must not exceed 30% of the annual income divided by 12 months
+
+If any of these rules are violated, the mortgage is considered not feasible.
+
 ## Code Coverage Requirements
 
 - **Line Coverage**: Minimum 80%
 - **Branch Coverage**: Minimum 70%
+
+The build will fail if coverage falls below these thresholds.

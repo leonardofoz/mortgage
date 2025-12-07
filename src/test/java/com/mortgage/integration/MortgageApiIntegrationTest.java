@@ -104,4 +104,26 @@ class MortgageApiIntegrationTest {
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
     }
+
+    @Test
+    void checkMortgage_WithUnknownMaturityPeriod_ShouldReturnBadRequest() {
+        MortgageCheckRequest request = new MortgageCheckRequest(
+                new BigDecimal("50000"),
+                30,
+                new BigDecimal("200000"),
+                new BigDecimal("300000")
+        );
+
+        HttpEntity<MortgageCheckRequest> entity = new HttpEntity<>(request);
+        ResponseEntity<String> response = restTemplate.exchange(
+                getBaseUrl() + "/api/mortgage-check",
+                HttpMethod.POST,
+                entity,
+                String.class
+        );
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertTrue(response.getBody().contains("Maturity Period Not Found"));
+        assertTrue(response.getBody().contains("30"));
+    }
 }

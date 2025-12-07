@@ -27,14 +27,24 @@ public class InMemoryInterestRateRepository implements InterestRateRepository {
     }
     
     /**
-     * Initialize the interest rates.
+     * Initialize interest rates with ING mortgage rates for 100% LTV.
+     * Rates are based on ING's current mortgage rates for 100% loan-to-value mortgages.
+     * Energy label A.
+     * Updated on 2025-12-07.
+     * Source: https://www.ing.nl/en/personal/mortgage/current-mortgage-rates
      */
     private void initializeInterestRates() {
         LocalDateTime now = LocalDateTime.now();
-        interestRates.put(5, new InterestRate(5, new BigDecimal("3.6"), now));
-        interestRates.put(10, new InterestRate(10, new BigDecimal("3.8"), now));
-        interestRates.put(15, new InterestRate(15, new BigDecimal("4.2"), now));
-        interestRates.put(20, new InterestRate(20, new BigDecimal("4.3"), now));
+        interestRates.put(1, new InterestRate(1, new BigDecimal("3.37"), now));
+        interestRates.put(2, new InterestRate(2, new BigDecimal("3.38"), now));
+        interestRates.put(3, new InterestRate(3, new BigDecimal("3.43"), now));
+        interestRates.put(5, new InterestRate(5, new BigDecimal("3.47"), now));
+        interestRates.put(6, new InterestRate(6, new BigDecimal("3.69"), now));
+        interestRates.put(7, new InterestRate(7, new BigDecimal("3.70"), now));
+        interestRates.put(10, new InterestRate(10, new BigDecimal("3.85"), now));
+        interestRates.put(12, new InterestRate(12, new BigDecimal("4.19"), now));
+        interestRates.put(15, new InterestRate(15, new BigDecimal("4.22"), now));
+        interestRates.put(20, new InterestRate(20, new BigDecimal("4.34"), now));
         log.info("Initialized {} interest rates", interestRates.size());
     }
     
